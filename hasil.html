@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Hasil Kuis</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Hasil Kuis Kamu</h1>
+    <p id="skor"></p>
+    <button onclick="location.href='index.html'">🔁 Ulangi Kuis</button>
+    <div id="wrongList" style="margin-top: 30px;"></div>
+  </div>
+  <script>
+    const skor = localStorage.getItem("skorKuis");
+    const total = localStorage.getItem("totalSoal");
+    const wrongs = JSON.parse(localStorage.getItem("wrongAnswers"));
+  
+    document.getElementById("skor").textContent = `Skor Anda: ${skor} dari ${total}`;
+  
+    const wrongList = document.getElementById("wrongList");
+  
+    if (wrongs.length === 0) {
+      wrongList.innerHTML = "<p>Semua jawaban benar! 🎉</p>";
+    } else {
+      wrongs.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `
+          <p><strong>Soal ${i + 1}:</strong> ${item.question}</p>
+          <p>Jawaban Anda: <span style="color:red">${item.chosen}</span></p>
+          <p>Jawaban Benar: <span style="color:green">${item.correct}</span></p>
+        `;
+        wrongList.appendChild(div);
+      });
+    }
+  </script>  
+</body>
+</html>
